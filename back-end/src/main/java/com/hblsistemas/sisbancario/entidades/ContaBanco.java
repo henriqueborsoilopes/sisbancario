@@ -8,7 +8,7 @@ public class ContaBanco {
 	private Double saldo = 0.0;
 	
 	private Usuario titular;
-	private TransacaoConta[] transacoes = new TransacaoConta[10];
+	private TransacaoConta[] transacoes = new TransacaoConta[3];
 	
 	public ContaBanco() { }
 	

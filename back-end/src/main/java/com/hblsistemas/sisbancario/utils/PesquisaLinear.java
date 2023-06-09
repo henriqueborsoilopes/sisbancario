@@ -6,7 +6,7 @@ public class PesquisaLinear {
 	
 	public static ContaBanco pesquisaLinearContaPorNome(String nome, ContaBanco[] contas){
         for (int i = 0; i < contas.length; i++) {
-            if (nome == contas[i].getTitular().getNome()){
+            if (nome.equals(contas[i].getTitular().getNome())){
                 return contas[i];
             }
         }
@@ -15,7 +15,7 @@ public class PesquisaLinear {
 	
 	public static ContaBanco pesquisaLinearContaPorNumConta(String numConta, ContaBanco[] contas){
         for (int i = 0; i < contas.length; i++) {
-            if (numConta == contas[i].getNumConta()) {
+            if (numConta.equals(contas[i].getNumConta())) {
                 return contas[i];
             }
         }

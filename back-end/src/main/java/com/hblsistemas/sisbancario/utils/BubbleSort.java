@@ -4,7 +4,7 @@ import com.hblsistemas.sisbancario.entidades.ContaBanco;
 
 public class BubbleSort {
 
-    public static void ordenationContaPorSaldo(ContaBanco[] contas) {
+    public static ContaBanco[] ordenationContaPorSaldo(ContaBanco[] contas) {
         boolean change;
         do {
             change = false;
@@ -19,9 +19,10 @@ public class BubbleSort {
             	}
             }
         } while (change);
+        return contas;
     }
     
-    public static void ordenationContaPorNumConta(ContaBanco[] contas) {
+    public static ContaBanco[] ordenationContaPorNumConta(ContaBanco[] contas) {
         boolean change;
         do {
             change = false;
@@ -36,5 +37,6 @@ public class BubbleSort {
             	}
             }
         } while (change);
+        return contas;
     }
 }

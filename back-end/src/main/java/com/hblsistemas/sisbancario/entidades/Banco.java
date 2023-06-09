@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class Banco {
 	
-	private ContaBanco[] contas = new ContaBanco[10];
+	private ContaBanco[] contas = new ContaBanco[3];
 	
 	public ContaBanco[] getContas() {
 		return contas;

@@ -10,6 +10,8 @@ import com.hblsistemas.sisbancario.entidades.TransacaoConta;
 import com.hblsistemas.sisbancario.entidades.Usuario;
 import com.hblsistemas.sisbancario.entidades.enums.TipoTransacao;
 import com.hblsistemas.sisbancario.utils.BubbleSort;
+import com.hblsistemas.sisbancario.utils.MetodoRecursivo;
+import com.hblsistemas.sisbancario.utils.PesquisaBinaria;
 import com.hblsistemas.sisbancario.utils.PesquisaLinear;
 
 public class TelaInicial {
@@ -18,8 +20,8 @@ public class TelaInicial {
 	private static Banco bancoDoBrasil = new Banco();
 	
 	public static void cadastrarConta() {
-		int resposta = 0;
 		int posicao = 0;
+		int contar = 0;
 		System.out.println("CRIAR CONTA. Informe os dados nos campos abaixo: ");
 		System.out.println("Pode criar até " + bancoDoBrasil.getContas().length + " contas.");
 		do {
@@ -35,9 +37,8 @@ public class TelaInicial {
 			conta.addTransacao(posicao, transacao);
 			bancoDoBrasil.addConta(posicao, conta);
 			posicao++;
-			System.out.print("Deseja encerrar? 0 - continuar ou 1 - sair: ");
-			resposta = sc.nextInt();
-		} while (resposta != 1);
+			contar++;
+		} while (contar != bancoDoBrasil.getContas().length);
 	}
 	
 	public static void exibirContas() {
@@ -46,11 +47,9 @@ public class TelaInicial {
 		System.out.print("Informe como deseja ordernar a lista de contas. Digita 0 - por saldo ou 1 - por número da conta: ");
 		int resposta = sc.nextInt();
 		if (resposta == 0) {
-			BubbleSort.ordenationContaPorSaldo(filtrarContasNaoNulas(bancoDoBrasil.getContas()));
-			System.out.println(Arrays.asList(filtrarContasNaoNulas(bancoDoBrasil.getContas())));
+			System.out.println(Arrays.asList(BubbleSort.ordenationContaPorSaldo(filtrarContasNaoNulas(bancoDoBrasil.getContas()))));
 		} else if (resposta == 1) {
-			BubbleSort.ordenationContaPorNumConta(filtrarContasNaoNulas(bancoDoBrasil.getContas()));
-			System.out.println(Arrays.asList(filtrarContasNaoNulas(bancoDoBrasil.getContas())));
+			System.out.println(Arrays.asList(BubbleSort.ordenationContaPorNumConta(filtrarContasNaoNulas(bancoDoBrasil.getContas()))));
 		}
 	}
 	
@@ -59,7 +58,7 @@ public class TelaInicial {
 		Double valor;
 		TransacaoConta transacao;
 		System.out.println("TRANSAÇÃO - DEPOSITO.");
-		System.out.print("Buscar conta (0 - por nome ou 1 - por número da conta): ");
+		System.out.print("Buscar conta (1 - por nome ou 2 - por número da conta): ");
 		int resposta = sc.nextInt();
 		switch (resposta) {
 		case 1:
@@ -78,6 +77,7 @@ public class TelaInicial {
 			System.out.print("Quanto deseja depositar nesta conta? ");
 			valor = sc.nextDouble();
 			transacao = new TransacaoConta(valor, LocalDateTime.now(), TipoTransacao.ENTRADA);
+			conta.addTransacao(1, transacao);
 			break;
 		default:
 			break;
@@ -86,6 +86,23 @@ public class TelaInicial {
 	
 	public static void criarTransacaoSaque() {
 		System.out.println("TRANSAÇÃO - SAQUE.");
+		System.out.println("Informe o número da conta: ");
+		String numConta = sc.next();
+		ContaBanco conta = PesquisaBinaria.pesquisaBinariaContaPorNumConta(numConta, bancoDoBrasil.getContas());
+		System.out.print("Quanto deseja sacar desta conta? ");
+		Double valor = sc.nextDouble();
+		TransacaoConta transacao = new TransacaoConta(valor, LocalDateTime.now(), TipoTransacao.SAIDA);
+		conta.addTransacao(2, transacao);
+	}
+	
+	public static void mostrarSaldoTotalBanco() {
+		System.out.println("SALDO TOTAL DO BANCO.");
+		System.out.println(MetodoRecursivo.calcularSaldoTotalBanco(bancoDoBrasil.getContas(), 0, 0.0));
+	}
+	
+	public static void mostrarContaComSaldoNegativo() {
+		System.out.println("CONTA COM SALDO NEGATIVO DO BANCO.");
+		System.out.println(MetodoRecursivo.verificarSaldoNegativo(bancoDoBrasil.getContas(), 0));
 	}
 	
 	private static ContaBanco[] filtrarContasNaoNulas(ContaBanco[] contas) {
